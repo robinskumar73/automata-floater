@@ -291,18 +291,21 @@ export default class ReactFloater extends React.Component {
           // Added Popper
           if (this.popper.hide) {
             target = this.target;
-            let joyrideParent = document.getElementById(id);
-            const isHidden = this.isElementOutViewport(target);
             this.popper.instance.reference = target;
-            if(isHidden){
-              if(joyrideParent){
-                joyrideParent.style.visibility = "hidden";
-              }
-            }else{
-              if (joyrideParent) {
-                joyrideParent.style.visibility = "visible";
+            if(typeof document !== "undefined"){
+              let joyrideParent = document.getElementById(id);
+              const isHidden = this.isElementOutViewport(target);
+              if(isHidden){
+                if(joyrideParent){
+                  joyrideParent.style.visibility = "hidden";
+                }
+              }else{
+                if (joyrideParent) {
+                  joyrideParent.style.visibility = "visible";
+                }
               }
             }
+           
           }
           if (this._isMounted && data.placement !== currentPlacement) {
             this.setState({ currentPlacement: data.placement });
