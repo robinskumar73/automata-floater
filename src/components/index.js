@@ -285,32 +285,28 @@ export default class ReactFloater extends React.Component {
         },
         onUpdate: data => {
           this.popper = data;
+          const { currentPlacement } = this.state;
           // Update: Robins
           // 31st May 2019
           // Added Popper
           if (this.popper.hide) {
             target = this.target;
-            // console.log("Window target", target, data)
+            let joyrideParent = document.getElementById(id);
+            const isHidden = this.isElementOutViewport(target);
             this.popper.instance.reference = target;
+            if(isHidden){
+              if(joyrideParent){
+                joyrideParent.style.visibility = "hidden";
+              }
+            }else{
+              if (joyrideParent) {
+                joyrideParent.style.visibility = "visible";
+              }
+            }
           }
-          // const { currentPlacement } = this.state;
-          // let joyrideParent = document.getElementById(id);
-          // target = this.target;
-          // const isHidden = this.isElementOutViewport(target);
-          // console.log("ELEMENT VISIBLE", isHidden, target, this.popper);
-          // if(isHidden){
-          //   if(joyrideParent){
-          //     joyrideParent.style.visibility = "hidden";
-          //   }
-          // }else{
-          //   if (joyrideParent) {
-          //     joyrideParent.style.visibility = "visible";
-          //   }
-          // }
-          // if (this._isMounted && data.placement !== currentPlacement) {
-          //   this.setState({ currentPlacement: data.placement });
-          // }
-          // this.previousState = isHidden;
+          if (this._isMounted && data.placement !== currentPlacement) {
+            this.setState({ currentPlacement: data.placement });
+          }
         },
       });
     }

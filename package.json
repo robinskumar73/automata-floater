@@ -1,6 +1,6 @@
 {
   "name": "automata-floater",
-  "version": "0.6.4",
+  "version": "0.6.5",
   "description": "Floaters everywhere!",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
   "repository": {
@@ -137,9 +137,7 @@
     }
   ],
   "husky": {
-    "hooks": {
-      
-    }
+    "hooks": {}
   },
   "prettier": {
     "jsxBracketSameLine": false,
