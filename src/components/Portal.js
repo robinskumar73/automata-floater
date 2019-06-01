@@ -92,6 +92,7 @@ export default class ReactFloaterPortal extends React.Component {
   }
 
   render() {
+    console.log('Portal is getting rendred');
     if (!isReact16) {
       return null;
     }

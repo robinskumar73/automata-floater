@@ -143,6 +143,16 @@ export default class ReactFloater extends React.Component {
     },
   };
 
+  isElementOutViewport = el => {
+    const rect = el.getBoundingClientRect();
+    return (
+      rect.bottom < 0 ||
+      rect.right < 0 ||
+      rect.left > window.innerWidth ||
+      rect.top > window.innerHeight
+    );
+  };
+
   componentDidMount() {
     if (!canUseDOM) return;
     const { positionWrapper } = this.state;
@@ -221,7 +231,7 @@ export default class ReactFloater extends React.Component {
 
   initPopper(target = this.target) {
     const { positionWrapper } = this.state;
-    const { disableFlip, getPopper, hideArrow, offset, placement, wrapperOptions } = this.props;
+    const { disableFlip, getPopper, hideArrow, offset, placement, wrapperOptions, id } = this.props;
     const flipBehavior =
       placement === 'top' || placement === 'bottom'
         ? 'flip'
@@ -275,11 +285,32 @@ export default class ReactFloater extends React.Component {
         },
         onUpdate: data => {
           this.popper = data;
-          const { currentPlacement } = this.state;
-
-          if (this._isMounted && data.placement !== currentPlacement) {
-            this.setState({ currentPlacement: data.placement });
+          // Update: Robins
+          // 31st May 2019
+          // Added Popper
+          if (this.popper.hide) {
+            target = this.target;
+            // console.log("Window target", target, data)
+            this.popper.instance.reference = target;
           }
+          // const { currentPlacement } = this.state;
+          // let joyrideParent = document.getElementById(id);
+          // target = this.target;
+          // const isHidden = this.isElementOutViewport(target);
+          // console.log("ELEMENT VISIBLE", isHidden, target, this.popper);
+          // if(isHidden){
+          //   if(joyrideParent){
+          //     joyrideParent.style.visibility = "hidden";
+          //   }
+          // }else{
+          //   if (joyrideParent) {
+          //     joyrideParent.style.visibility = "visible";
+          //   }
+          // }
+          // if (this._isMounted && data.placement !== currentPlacement) {
+          //   this.setState({ currentPlacement: data.placement });
+          // }
+          // this.previousState = isHidden;
         },
       });
     }
@@ -313,6 +344,15 @@ export default class ReactFloater extends React.Component {
             setTimeout(() => {
               data.instance.update();
             }, 1);
+          }
+        },
+        // Update : Robins
+        // 31st May 2019
+        // Added Popper
+        onUpdate: data => {
+          if (data.hide) {
+            target = this.target;
+            data.instance.reference = target;
           }
         },
       });
@@ -578,6 +618,7 @@ export default class ReactFloater extends React.Component {
       output.wrapperAsChildren = wrapper;
     }
 
+    console.log('Parent floater is getting rendered');
     return (
       <span>
         <Portal

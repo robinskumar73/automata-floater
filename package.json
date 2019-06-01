@@ -1,5 +1,5 @@
 {
-  "name": "react-floater",
+  "name": "automata-floater",
   "version": "0.6.4",
   "description": "Floaters everywhere!",
   "author": "Gil Barbara <gilbarbara@gmail.com>",
@@ -139,8 +139,7 @@
   ],
   "husky": {
     "hooks": {
-      "post-merge": "node tools update",
-      "pre-commit": "node tools upstream && lint-staged && flow"
+      
     }
   },
   "prettier": {
